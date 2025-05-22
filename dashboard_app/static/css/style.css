@@ -1,0 +1,66 @@
+/* Dark mode styles */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+}
+
+/* Light mode styles */
+[data-theme="light"] {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.table {
+    color: var(--text-color);
+}
+
+/* Custom styles */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.card {
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+/* Password strength indicator */
+.password-strength {
+    margin-top: 10px;
+}
+
+.strength-item {
+    padding: 2px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.strength-item.valid {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.strength-item.invalid {
+    background-color: #f8d7da;
+    color: #721c24;
+} 
