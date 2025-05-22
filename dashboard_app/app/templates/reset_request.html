@@ -1,13 +1,30 @@
-{% extends "layout.html" %}
+{% extends "base.html" %}
+
+{% block title %}Wachtwoord Reset Aanvragen{% endblock %}
+
 {% block content %}
-<div class="container mt-4">
-    <h2>Wachtwoord Reset Aanvragen</h2>
-    {% if msg %}<div class="alert alert-info">{{ msg }}</div>{% endif %}
-    {% if fout %}<div class="alert alert-danger">{{ fout }}</div>{% endif %}
-    <form method="post">
-        <input name="gebruikersnaam" class="form-control mb-2" placeholder="Gebruikersnaam" required>
-        <button class="btn btn-primary">Reset-token aanvragen</button>
-    </form>
-    <a href="/login">← Terug naar login</a>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Wachtwoord Reset Aanvragen</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Gebruikersnaam</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Reset Aanvragen</button>
+                    </div>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('login') }}">Terug naar login</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
+{% endblock %} 
