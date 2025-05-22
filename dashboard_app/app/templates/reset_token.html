@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Wachtwoord Resetten{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">Nieuw Wachtwoord Instellen</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Nieuw Wachtwoord</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <div class="form-text">
+                            Het wachtwoord moet minimaal bevatten:
+                            <ul>
+                                <li>12 karakters</li>
+                                <li>1 hoofdletter</li>
+                                <li>1 kleine letter</li>
+                                <li>1 cijfer</li>
+                                <li>1 speciaal teken (!@#$%^&*())</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Bevestig Wachtwoord</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Wachtwoord Wijzigen</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('password').addEventListener('input', function() {
+    const password = this.value;
+    const requirements = {
+        length: password.length >= 12,
+        upper: /[A-Z]/.test(password),
+        lower: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: /[!@#$%^&*()]/.test(password)
+    };
+    
+    // Update visual feedback (you could add classes to the list items)
+    // Implementation left as an exercise
+});
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirm = document.getElementById('confirm_password').value;
+    
+    if (password !== confirm) {
+        e.preventDefault();
+        alert('De wachtwoorden komen niet overeen.');
+    }
+});
+</script>
+{% endblock %} 
