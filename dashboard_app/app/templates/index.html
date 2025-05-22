@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Dashboard <span id="scan-status" class="badge bg-secondary">Scanstatus: laden...</span></h2>
+        <button onclick="toggleTheme()" class="btn btn-outline-warning">🌗 Toggle Dark Mode</button>
+    </div>
+
+    <form method="get" class="row g-2 mb-3">
+        <div class="col"><input type="text" name="ip" class="form-control" placeholder="IP-adres" value="{{ request.args.get('ip', '') }}"></div>
+        <div class="col"><input type="text" name="poort" class="form-control" placeholder="Poort" value="{{ request.args.get('poort', '') }}"></div>
+        <div class="col">
+            <select name="service" class="form-control">
+                <option value="">Service: alles</option>
+                {% for s in services %}
+                    <option value="{{ s }}" {{ 'selected' if request.args.get('service') == s else '' }}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col"><input type="date" name="from" class="form-control" value="{{ request.args.get('from', '') }}"></div>
+        <div class="col"><input type="date" name="to" class="form-control" value="{{ request.args.get('to', '') }}"></div>
+        <div class="col"><button class="btn btn-outline-light">Filter</button></div>
+        <div class="col"><a href="/" class="btn btn-outline-secondary">Reset</a></div>
+    </form>
+
+    <!-- ✅ Toegevoegd formulier voor netwerk-scan -->
+<form method="post" action="/start-scan" class="row g-2 mb-3">
+  <div class="col-md-4">
+    <input type="text" name="netwerk" placeholder="Bijv. 192.168.10.0/24" class="form-control" required>
+  </div>
+  <div class="col-md-4">
+    <select name="richtlijn" class="form-control" required>
+      {% for r in richtlijnen %}
+        <option value="{{ r.id }}">{{ r.naam }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <button class="btn btn-warning">🔍 Start Richtlijnscan</button>
+  </div>
+</form>
+
+    <div class="mb-3">
+        <a href="/export" class="btn btn-outline-success">CSV Export</a>
+        {% if session['is_admin'] %}<a href="/admin" class="btn btn-outline-primary">Adminpanel</a>{% endif %}
+        <a href="/logout" class="btn btn-outline-danger">Uitloggen</a>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead><tr><th>IP</th><th>Poort</th><th>Status</th><th>Protocol</th><th>Service</th><th>Tijdstip</th></tr></thead>
+        <tbody>
+            {% for row in rows %}
+                <tr>
+                {% for col in row %}
+                    {% if loop.index0 == 2 %}
+                        <td>{% if col == 'open' %}<span class='text-success'>Open</span>{% elif col == 'closed' %}<span class='text-danger'>Gesloten</span>{% else %}{{ col }}{% endif %}</td>
+                    {% else %}
+                        <td>{{ col }}</td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+setInterval(() => {
+    fetch('/scan-status-label')
+        .then(r => r.text())
+        .then(text => {
+            const badge = document.getElementById('scan-status');
+            badge.textContent = (text === 'unknown' ? '' : 'Scanstatus: ' + text);
+            badge.className = 'badge ' + (text === 'running' ? 'bg-warning' : text === 'done' ? 'bg-success' : 'd-none');
+        });
+}, 10000);
+</script>
+{% endblock %}

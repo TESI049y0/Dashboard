@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Wachtwoord Reset Aanvragen</h2>
+    {% if msg %}<div class="alert alert-info">{{ msg }}</div>{% endif %}
+    {% if fout %}<div class="alert alert-danger">{{ fout }}</div>{% endif %}
+    <form method="post">
+        <input name="gebruikersnaam" class="form-control mb-2" placeholder="Gebruikersnaam" required>
+        <button class="btn btn-primary">Reset-token aanvragen</button>
+    </form>
+    <a href="/login">← Terug naar login</a>
+</div>
+{% endblock %}

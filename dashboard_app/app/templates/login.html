@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Login</h2>
+    <form method="post">
+        <div class="mb-3"><input class="form-control" name="username" placeholder="Gebruikersnaam" required></div>
+        <div class="mb-3"><input class="form-control" name="password" placeholder="Wachtwoord" type="password" required></div>
+        <button class="btn btn-primary" type="submit">Inloggen</button>
+    </form>
+    <div class="mt-2">
+        <a href="/reset-request">Wachtwoord vergeten?</a>
+    </div>
+</div>
+{% endblock %}

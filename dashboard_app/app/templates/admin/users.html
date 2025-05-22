@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Gebruikersbeheer</h2>
+    {% if msg %}<div class="alert alert-info">{{ msg }}</div>{% endif %}
+    <form method="get" class="mb-3">
+        <input type="text" name="zoek" class="form-control" placeholder="Zoek gebruikersnaam..." value="{{ request.args.get('zoek', '') }}">
+    </form>
+
+    <form method="post" class="mb-4">
+        <input type="hidden" name="action" value="add">
+        <div class="row g-2">
+            <div class="col"><input name="gebruikersnaam" placeholder="Gebruikersnaam" class="form-control" required></div>
+            <div class="col"><input name="wachtwoord" placeholder="Wachtwoord" class="form-control" type="password" required></div>
+            <div class="col"><label><input type="checkbox" name="is_admin"> Admin</label></div>
+            <div class="col"><button class="btn btn-success">Toevoegen</button></div>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead><tr><th>Gebruikersnaam</th><th>Nieuw Wachtwoord</th><th>Admin?</th><th>Acties</th></tr></thead>
+        <tbody>
+        {% for user in gebruikers %}
+            <tr>
+            <form method="post">
+                <input type="hidden" name="gebruikersnaam" value="{{ user[0] }}">
+                <td>{{ user[0] }}</td>
+                <td><input name="nieuw_wachtwoord" type="password" class="form-control" placeholder="Nieuw wachtwoord"></td>
+                <td><input type="checkbox" name="is_admin" {% if user[1] %}checked{% endif %}></td>
+                <td>
+                    <button class="btn btn-primary btn-sm" name="action" value="edit">Wijzig</button>
+                    <button class="btn btn-danger btn-sm" name="action" value="delete" onclick="return confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?')">Verwijder</button>
+                </td>
+            </form>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="/admin" class="btn btn-outline-secondary">← Terug naar Adminpanel</a>
+</div>
+{% endblock %}

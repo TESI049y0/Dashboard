@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2>Gebruikerslogboek</h2>
+    <table class="table table-bordered">
+        <thead><tr><th>Gebruiker</th><th>Actie</th><th>Tijdstip</th></tr></thead>
+        <tbody>
+            {% for log in logs %}
+                <tr><td>{{ log[0] }}</td><td>{{ log[1] }}</td><td>{{ log[2] }}</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/admin" class="btn btn-outline-secondary">← Terug naar Adminpanel</a>
+</div>
+{% endblock %}
